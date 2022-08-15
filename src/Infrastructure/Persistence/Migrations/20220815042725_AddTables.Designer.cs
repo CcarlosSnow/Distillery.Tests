@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Distillery.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220815041923_AddTables")]
+    [Migration("20220815042725_AddTables")]
     partial class AddTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,9 +34,6 @@ namespace Distillery.Infrastructure.Persistence.Migrations
 
                     b.Property<float>("Amout")
                         .HasColumnType("real");
-
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");

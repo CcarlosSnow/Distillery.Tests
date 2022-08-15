@@ -17,6 +17,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+                { typeof(BusinessRuleException), HandleBusinessRuleException },
             };
     }
 
@@ -81,6 +82,22 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
 
         context.Result = new NotFoundObjectResult(details);
+
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleBusinessRuleException(ExceptionContext context)
+    {
+        var exception = (BusinessRuleException)context.Exception;
+
+        var details = new ProblemDetails()
+        {
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+            Title = "The specified resource has business rules.",
+            Detail = exception.Message
+        };
+
+        context.Result = new BadRequestObjectResult(details);
 
         context.ExceptionHandled = true;
     }

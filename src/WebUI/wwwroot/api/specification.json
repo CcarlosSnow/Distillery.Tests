@@ -6,6 +6,116 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/CreditCard": {
+      "post": {
+        "tags": [
+          "CreditCard"
+        ],
+        "operationId": "CreditCard_Create",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCreditCardCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CreditCard/{Id}/pay": {
+      "post": {
+        "tags": [
+          "CreditCard"
+        ],
+        "operationId": "CreditCard_Consumes",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCardBalanceCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CreditCard/{Id}": {
+      "get": {
+        "tags": [
+          "CreditCard"
+        ],
+        "operationId": "CreditCard_Get",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCreditCardByIdDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TodoItems": {
       "get": {
         "tags": [
@@ -440,6 +550,93 @@
   },
   "components": {
     "schemas": {
+      "CreateCreditCardCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cardNumber": {
+            "type": "string"
+          },
+          "totalCredit": {
+            "type": "number",
+            "format": "float"
+          },
+          "cardOwner": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateCardBalanceCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "movementDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amout": {
+            "type": "number",
+            "format": "float"
+          },
+          "creditCardId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GetCreditCardByIdDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/CreditCardSummary"
+          },
+          "balances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreditCardBalance"
+            }
+          }
+        }
+      },
+      "CreditCardSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cardNumber": {
+            "type": "string"
+          },
+          "totalCredit": {
+            "type": "number",
+            "format": "float"
+          },
+          "currentCredit": {
+            "type": "number",
+            "format": "float"
+          },
+          "cardOwner": {
+            "type": "string"
+          }
+        }
+      },
+      "CreditCardBalance": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "movementDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amout": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
       "PaginatedListOfTodoItemBriefDto": {
         "type": "object",
         "additionalProperties": false,

@@ -36,7 +36,6 @@ namespace Distillery.Infrastructure.Persistence.Migrations
                     MovementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Amout = table.Column<float>(type: "real", nullable: false),
-                    CardId = table.Column<int>(type: "int", nullable: false),
                     CreditCardId = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
