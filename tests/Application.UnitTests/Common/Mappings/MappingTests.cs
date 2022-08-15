@@ -2,7 +2,6 @@
 using AutoMapper;
 using Distillery.Application.Common.Mappings;
 using Distillery.Application.Common.Models;
-using Distillery.Application.TodoLists.Queries.GetTodos;
 using Distillery.Domain.Entities;
 using NUnit.Framework;
 
@@ -26,17 +25,17 @@ public class MappingTests
         _configuration.AssertConfigurationIsValid();
     }
 
-    [Test]
-    [TestCase(typeof(TodoList), typeof(TodoListDto))]
-    [TestCase(typeof(TodoItem), typeof(TodoItemDto))]
-    [TestCase(typeof(TodoList), typeof(LookupDto))]
-    [TestCase(typeof(TodoItem), typeof(LookupDto))]
-    public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
-    {
-        var instance = GetInstanceOf(source);
+    //[Test]
+    //[TestCase(typeof(TodoList), typeof(TodoListDto))]
+    //[TestCase(typeof(TodoItem), typeof(TodoItemDto))]
+    //[TestCase(typeof(TodoList), typeof(LookupDto))]
+    //[TestCase(typeof(TodoItem), typeof(LookupDto))]
+    //public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
+    //{
+    //    var instance = GetInstanceOf(source);
 
-        _mapper.Map(instance, source, destination);
-    }
+    //    _mapper.Map(instance, source, destination);
+    //}
 
     private object GetInstanceOf(Type type)
     {

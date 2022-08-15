@@ -26,10 +26,6 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
         _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
     }
 
-    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
-
-    public DbSet<TodoList> TodoLists => Set<TodoList>();
-
     public DbSet<CreditCard> CreditCards => Set<CreditCard>();
 
     public DbSet<CardBalance> CardBalances => Set<CardBalance>();

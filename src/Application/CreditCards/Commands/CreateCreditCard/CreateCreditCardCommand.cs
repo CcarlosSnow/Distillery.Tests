@@ -1,6 +1,5 @@
 ﻿using Distillery.Application.Common.Interfaces;
 using Distillery.Domain.Entities;
-using Distillery.Domain.Events;
 using MediatR;
 
 namespace Distillery.Application.CreditCards.Commands.CreateCreditCard;

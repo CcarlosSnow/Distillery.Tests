@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Distillery.Application.Common.Exceptions;
 using Distillery.Application.Common.Interfaces;
@@ -33,19 +28,23 @@ public class GetTodosQueryHandler : IRequestHandler<GetCreditCardByIdQuery, GetC
 
     public async Task<GetCreditCardByIdDto> Handle(GetCreditCardByIdQuery request, CancellationToken cancellationToken)
     {
-        var creditCard = await _context.CreditCards.FindAsync(request.CreditCardId);
+        var creditCard = await _context.CreditCards.AsNoTracking()
+            .ProjectTo<CreditCardSummary>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(x => x.Id == request.CreditCardId);
 
         if (creditCard is null)
             throw new NotFoundException($"Credit Card with Id {request.CreditCardId} does not exists.");
 
-        var balances = await _context.CardBalances.Where(x => x.CreditCardId == request.CreditCardId)
+        var balances = await _context.CardBalances
+            .AsNoTracking()
+            .Where(x => x.CreditCardId == request.CreditCardId)
             .OrderBy(x => x.MovementDate)
             .ProjectTo<CreditCardBalance>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
         return new GetCreditCardByIdDto()
         {
-            Summary = _mapper.Map<CreditCardSummary>(creditCard),
+            Summary = creditCard,
             Balances = balances
         };
     }

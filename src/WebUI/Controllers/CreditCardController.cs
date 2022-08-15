@@ -1,9 +1,12 @@
 ﻿using Distillery.Application.CardBalances.Commands.CreateCardBalance;
 using Distillery.Application.CreditCards.Commands.CreateCreditCard;
 using Distillery.Application.CreditCards.Queries.GetCreditCardById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Distillery.WebUI.Controllers;
+
+[Authorize]
 public class CreditCardController : ApiControllerBase
 {
     [HttpPost]

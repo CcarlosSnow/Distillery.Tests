@@ -2,7 +2,6 @@
 using Distillery.Application.Common.Interfaces;
 using Distillery.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Distillery.Application.CardBalances.Commands.CreateCardBalance;
 public class CreateCardBalanceCommand : IRequest<int>
@@ -15,10 +14,12 @@ public class CreateCardBalanceCommand : IRequest<int>
 public class CreateCardBalancesCommandHandler : IRequestHandler<CreateCardBalanceCommand, int>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IPaymentFee _paymentFee;
 
-    public CreateCardBalancesCommandHandler(IApplicationDbContext context)
+    public CreateCardBalancesCommandHandler(IApplicationDbContext context, IPaymentFee paymentFee)
     {
         _context = context;
+        _paymentFee = paymentFee;
     }
 
     public async Task<int> Handle(CreateCardBalanceCommand request, CancellationToken cancellationToken)
@@ -31,11 +32,18 @@ public class CreateCardBalancesCommandHandler : IRequestHandler<CreateCardBalanc
         if (creditCard.CurrentCredit < request.Amout)
             throw new BusinessRuleException($"Credit Card with Id {request.CreditCardId} does not have enought credit.");
 
+        var fee = _paymentFee.GetFee();
+        var feeAmount = (request.Amout * fee) / 100;
+        var paymentAmount = request.Amout + feeAmount;
+
         var entity = new CardBalance
         {
             MovementDate = request.MovementDate,
             Amout = request.Amout,
             CreditCardId = request.CreditCardId,
+            Fee = fee,
+            FeeAmount = (float)feeAmount,
+            PaymentAmount = (float)paymentAmount,
         };
 
         creditCard.CurrentCredit -= request.Amout;

@@ -26,4 +26,7 @@ public class CreditCardBalance : IMapFrom<CardBalance>
 {
     public DateTime MovementDate { get; set; }
     public float Amout { get; set; }
+    public double Fee { get; set; }
+    public float FeeAmount { get; set; }
+    public float PaymentAmount { get; set; }
 }

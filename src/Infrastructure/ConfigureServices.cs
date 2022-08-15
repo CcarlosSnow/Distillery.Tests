@@ -1,5 +1,4 @@
 ﻿using Distillery.Application.Common.Interfaces;
-using Distillery.Infrastructure.Files;
 using Distillery.Infrastructure.Identity;
 using Distillery.Infrastructure.Persistence;
 using Distillery.Infrastructure.Persistence.Interceptors;
@@ -14,6 +13,8 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton<IPaymentFee, PaymentFee>();
+
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
 
         if (configuration.GetValue<bool>("UseInMemoryDatabase"))
@@ -42,7 +43,6 @@ public static class ConfigureServices
 
         services.AddTransient<IDateTime, DateTimeService>();
         services.AddTransient<IIdentityService, IdentityService>();
-        services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
         services.AddAuthentication()
             .AddIdentityServerJwt();
