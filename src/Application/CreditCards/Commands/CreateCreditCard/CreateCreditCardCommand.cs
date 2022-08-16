@@ -5,6 +5,13 @@ using MediatR;
 namespace Distillery.Application.CreditCards.Commands.CreateCreditCard;
 public class CreateCreditCardCommand : IRequest<int>
 {
+    public CreateCreditCardCommand(string cardNumber, float totalCredit, string cardOwner)
+    {
+        CardNumber = cardNumber;
+        TotalCredit = totalCredit;
+        CardOwner = cardOwner;
+    }
+
     public string CardNumber { get; set; }
     public float TotalCredit { get; set; }
     public string CardOwner { get; set; }
